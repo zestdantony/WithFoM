@@ -1,0 +1,49 @@
+---
+description: "WithFoM Router: Route between BIZ / DEV / CODE without interference"
+globs:
+alwaysApply: true
+---
+
+# WF Router (Always)
+
+## 1) Goal
+- Prevent BIZ document constitution rules from breaking DEV docs and CODE generation.
+- Decide MODE per request and per file tag.
+- Execute-first: when user gives a command, do the work and report results (no 'clarification questions' unless the request is impossible).
+
+## 2) MODE Selection Priority
+1. If the user's request starts with one of: [BIZ], [DEV], [CODE], set MODE accordingly.
+2. Else, if the currently edited target markdown file starts with one of:
+   - <!-- WF:DOC=BIZ -->
+   - <!-- WF:DOC=DEV -->
+   - <!-- WF:DOC=CODE -->
+   set MODE accordingly.
+3. Else infer:
+   - If the file contains multiple fenced code blocks (```...```), API specs, endpoint lists, schemas, implementation notes → MODE=DEV
+   - If the request is "write / notice / proposal / business plan / policy / restructure doc" → MODE=BIZ
+   - If the request is "implement / write code / create function / generate component / refactor" → MODE=CODE
+
+## 3) Hard Separation Rules
+- When MODE=CODE:
+  - Ignore all BIZ/DEV formatting constitutions (no full-width space rules, no trailing-two-spaces rules).
+  - Output code cleanly. Use fenced code blocks when output is in markdown.
+- When MODE=DEV:
+  - DEV rules apply; BIZ rules must NOT restrict code blocks.
+  - Never reformat inside fenced code blocks unless explicitly asked.
+- When MODE=BIZ:
+  - BIZ constitution applies (including formatting), but DO NOT enforce anything that breaks code generation because BIZ should not be used for code tasks.
+
+## 4) Reporting Style (Result-only)
+- After execution, report:
+  - What you changed (files/sections)
+  - What you created (folders/files)
+  - Any "확인 필요" items (only if the instruction is impossible/ambiguous, but do not ask questions mid-flight)
+
+## 5) Structure Split Rules (BIZ/DEV Docs Only)
+- Apply the following only when MODE is BIZ or DEV (never for CODE):
+  1) Overview numbering uses ".0" (e.g., 1.0. 섹션 개요).
+  2) If content becomes long, folderize that level; next level becomes files.
+  3) In one parent folder, same-level items cannot mix files and folders.
+     - If any item of that level is a folder, all items of that level must be folders.
+  4) Example enforcement: Under 4th-level folder "7-2-2-3", if any 5th-level is a folder → all 5th-level are folders, and 6th-level are files.
+  5) 5th-level numbering starts with the last number of the 4th-level (e.g., under 7-2-2-3 → 3.0, 3.1, 3.2 ...).

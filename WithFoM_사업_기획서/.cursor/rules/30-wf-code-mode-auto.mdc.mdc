@@ -1,0 +1,29 @@
+---
+description: "CODE mode: generate/modify code without BIZ/DEV constraints"
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.py"
+  - "**/*.java"
+  - "**/*.go"
+  - "**/*.rs"
+  - "**/*.sql"
+alwaysApply: false
+---
+
+# WF CODE Mode Rules (MODE=CODE only)
+
+## 0) Activation
+- Apply this rule ONLY when MODE=CODE (set by WF Router).
+- If MODE is BIZ or DEV, ignore this entire file.
+
+## 1) Output Standard
+- Prefer code-first output.
+- If output is shown in markdown, wrap code in fenced code blocks.
+- Do not apply any document constitution formatting rules (no full-width space rules, no trailing-two-spaces rules, no markdown list-escape constraints).
+
+## 2) Safety
+- Do not change files beyond what the user asked.
+- When editing existing code, preserve style and conventions found in the file unless the user asked to refactor.

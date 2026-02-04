@@ -1,0 +1,38 @@
+---
+description: "DEV docs rules (specs + code blocks). Applies only when MODE=DEV."
+globs:
+  - "**/*.md"
+alwaysApply: false
+---
+
+# WF DEV Docs Rules (MODE=DEV only)
+
+## 0) Activation
+- Apply this rule ONLY when MODE=DEV (set by WF Router).
+- If MODE is BIZ or CODE, ignore this entire file.
+
+## 1) 핵심 목적
+- 문서(명세) + 코드블록이 섞인 파일을 안전하게 다룬다.
+- 코드블록(```...```) 내부는 원칙적으로 손대지 않는다.
+- 문서 구조(번호/개요/폴더/파일 분할)는 적용하되, 코드에 방해되는 규칙(전각공백 강제, 줄끝 2칸 강제 등)은 코드블록에 적용하지 않는다.
+
+## 2) Code Block Safety (최우선)
+- Never modify content inside fenced code blocks (```json, ```js, ```jsx, etc.) unless the user explicitly requests a change inside that block.
+- Never add/remove trailing spaces, indentation, or wrapping inside code blocks.
+- Do not enforce full-width space indentation inside code blocks.
+
+## 3) Structure Rules (DEV docs)
+- Overview numbering uses ".0" (e.g., 1.0. 섹션 개요).
+- If content becomes long, folderize that level; next level becomes files.
+- Same-level mixing ban: in one parent folder, same-level items cannot mix files and folders.
+- 5th-level numbering inheritance: under 4th-level X-Y-Z-N → 5th-level starts with N.* (e.g., N.0, N.1 ...).
+
+## 4) Reporting (Result-only)
+- After execution, report:
+  - what changed (sections/files)
+  - what was created (folders/files)
+  - any "확인 필요" items
+
+## 5) File Tag Recommendation
+- For DEV docs, the first line of the file should be:
+  - <!-- WF:DOC=DEV -->
