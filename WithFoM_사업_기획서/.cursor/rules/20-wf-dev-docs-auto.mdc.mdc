@@ -22,10 +22,17 @@ alwaysApply: false
 - Do not enforce full-width space indentation inside code blocks.
 
 ## 3) Structure Rules (DEV docs)
-- Overview numbering uses ".0" (e.g., 1.0. 섹션 개요).
+- Overview numbering uses `0` for overview items (e.g., compact: `72810.`).
 - If content becomes long, folderize that level; next level becomes files.
 - Same-level mixing ban: in one parent folder, same-level items cannot mix files and folders.
-- 5th-level numbering inheritance: under 4th-level X-Y-Z-N → 5th-level starts with N.* (e.g., N.0, N.1 ...).
+- [Deprecated] 이전 규칙 "5th-level numbering starts with last number of 4th-level" — 컴팩트 체계에서는 풀 패스 번호가 상위 경로를 자동 포함하므로 불필요.
+- **Compact Numbering System** (sole active system):
+  - Each character = one hierarchy level. Full-path numbers on ALL levels (folders, filenames, internal headings, AND content items).
+  - Values: 0(overview only), 1-9, A(10), B(11), C(12)...
+  - Old formats (`1:`, `A.`, `a.`, `•`) are deprecated — do not use in new/modified files.
+  - Infinitely extensible: 14th, 15th level and beyond continue the same pattern.
+  - Full application from `728.` onward. Legacy folders (`7-1.` ~ `7-2-7.`): convert per-file when modified.
+  - See `10-wf-biz-docs-auto` Section 10 for full specification.
 
 ## 4) Reporting (Result-only)
 - After execution, report:
